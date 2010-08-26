@@ -9,12 +9,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Gigamud.UI.TelnetConsole;
 
 namespace Gigamud
 {
     public partial class App : Application
     {
-
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -26,7 +26,7 @@ namespace Gigamud
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new MainPage();
+            this.RootVisual = new TelnetConsoleView();
         }
 
         private void Application_Exit(object sender, EventArgs e)

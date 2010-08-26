@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud", "Gigamud\Gigamud.csproj", "{8D4B71B9-2A37-455D-B2BE-E7F1EA637409}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud.UI", "Gigamud.UI\Gigamud.UI.csproj", "{7D61D937-2D07-4DEC-BC1D-1596F487FD05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud.Infrastructure", "Gigamud.Infrastructure\Gigamud.Infrastructure.csproj", "{993A85D5-E8B0-42AD-892B-217EEFD3A336}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -17,6 +21,14 @@ Global
 		{8D4B71B9-2A37-455D-B2BE-E7F1EA637409}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D4B71B9-2A37-455D-B2BE-E7F1EA637409}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D4B71B9-2A37-455D-B2BE-E7F1EA637409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D61D937-2D07-4DEC-BC1D-1596F487FD05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D61D937-2D07-4DEC-BC1D-1596F487FD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D61D937-2D07-4DEC-BC1D-1596F487FD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D61D937-2D07-4DEC-BC1D-1596F487FD05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

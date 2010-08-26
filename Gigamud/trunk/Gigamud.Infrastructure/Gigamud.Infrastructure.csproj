@@ -55,12 +55,14 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding\TextBoxBindingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\BasicCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\ViewModels\" />
     <Folder Include="UI\Views\" />
-    <Folder Include="Utilities\" />
+    <Folder Include="Utilities\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

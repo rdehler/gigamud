@@ -69,6 +69,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gigamud.Communications\Gigamud.Communications.csproj">
+      <Project>{CA0C115A-B418-482B-8065-09A0351DFCBE}</Project>
+      <Name>Gigamud.Communications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gigamud.Infrastructure\Gigamud.Infrastructure.csproj">
+      <Project>{993A85D5-E8B0-42AD-892B-217EEFD3A336}</Project>
+      <Name>Gigamud.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

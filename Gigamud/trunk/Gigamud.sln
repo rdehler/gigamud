@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud.UI", "Gigamud.UI\Gi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud.Infrastructure", "Gigamud.Infrastructure\Gigamud.Infrastructure.csproj", "{993A85D5-E8B0-42AD-892B-217EEFD3A336}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gigamud.Communications", "Gigamud.Communications\Gigamud.Communications.csproj", "{CA0C115A-B418-482B-8065-09A0351DFCBE}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -29,6 +31,10 @@ Global
 		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{993A85D5-E8B0-42AD-892B-217EEFD3A336}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0C115A-B418-482B-8065-09A0351DFCBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0C115A-B418-482B-8065-09A0351DFCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0C115A-B418-482B-8065-09A0351DFCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0C115A-B418-482B-8065-09A0351DFCBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

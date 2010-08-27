@@ -14,6 +14,7 @@ using Gigamud.Communications.Sockets;
 using System.Text;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using Gigamud.Communications.Sockets.Telnet;
 
 namespace Gigamud.UI.TelnetConsole
 {
@@ -93,16 +94,15 @@ namespace Gigamud.UI.TelnetConsole
             {
                 _appDispatcher = Application.Current.RootVisual.Dispatcher;
                 _commSocket = new TelnetSocket(ServerName, _port);
-                _commSocket.Connected += new TelnetSocket.TelnetSocketConnectedHandler((e) => {/*handle error*/});
-                _commSocket.MessageRecieved += new TelnetSocket.TelnetSocketMessageRecievedHandler(AddContent);
+                _commSocket.MessageRecieved += new TelnetSocket.IncomingMessageHandler((m) => { AddContent(m); });
                 _commSocket.Connect();
             });
 
             SendCommand = new BasicCommand((o) =>
                 {
-                    if (_commSocket.IsConnected && _command != null)
+                    if (_commSocket.IsConnected)
                     {
-                        _commSocket.Write(_command + "\n");
+                        _commSocket.Write(_command);
                     }
                 });
         }

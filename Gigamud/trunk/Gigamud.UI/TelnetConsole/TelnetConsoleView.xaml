@@ -10,6 +10,9 @@
     d:DesignHeight="300" d:DesignWidth="400" >
     <UserControl.Resources>
         <local:TelnetConsoleViewModel x:Key="ViewModel"/>
+        <DataTemplate x:Key="ContentTemplate">
+            <TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" FontSize="12" Text="{Binding}"/>
+        </DataTemplate>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -30,11 +33,11 @@
             <TextBox Text="{Binding Port, Mode=TwoWay}" VerticalAlignment="Center" Margin="5,0,0,0" Width="50" bindingUtil:TextBoxBindingHelper.UpdateSourceOnChange="True"/>
             <Button Command="{Binding ConnectCommand}" Content="Connect" Margin="15,0,0,0" Height="25"/>
         </StackPanel>
-        <TextBlock Text="{Binding DataFeed, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
+        <ListBox Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Content, Mode=TwoWay}" ItemTemplate="{StaticResource ContentTemplate}"/>
         <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
             <sdk:Label Content="Command:" Margin="5,0,0,0" VerticalAlignment="Center"/>
-            <TextBox VerticalAlignment="Center" Margin="15,0,0,0" MinWidth="200"/>
-            <Button Content="Send" Width="50" VerticalAlignment="Center" Margin="15,0,0,0"/>
+            <TextBox bindingUtil:TextBoxBindingHelper.UpdateSourceOnChange="True" Text="{Binding Command, Mode=TwoWay}" VerticalAlignment="Center" Margin="15,0,0,0" MinWidth="200"/>
+            <Button Command="{Binding SendCommand}" Content="Send" Width="50" VerticalAlignment="Center" Margin="15,0,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

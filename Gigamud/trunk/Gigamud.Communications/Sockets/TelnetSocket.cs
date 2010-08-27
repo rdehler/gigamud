@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Net.Sockets;
 using Gigamud.Communications.Sockets.Encodings;
+using System.Collections.Generic;
 
 namespace Gigamud.Communications.Sockets
 {
@@ -17,10 +18,11 @@ namespace Gigamud.Communications.Sockets
     {
         Socket _socket;
         EndPoint _serverEndPoint;
-        SocketAsyncEventArgs _connectArgs, _readArgs, _writeArgs;
+        bool waiting = false;
 
         static readonly int MAXBUFFER = 1024;
-        byte[] _buffer;
+        byte[] _readbuffer;
+        byte[] _writebuffer;
 
         public TelnetSocket(string hostDns, int port)
         {
@@ -35,11 +37,11 @@ namespace Gigamud.Communications.Sockets
 
             if (!_socket.Connected)
             {
-                _connectArgs = new SocketAsyncEventArgs();
-                _connectArgs.UserToken = _socket;
-                _connectArgs.RemoteEndPoint = _serverEndPoint;
-                _connectArgs.Completed += new EventHandler<SocketAsyncEventArgs>(ConnectAsyncCallback);
-                _socket.ConnectAsync(_connectArgs);
+                SocketAsyncEventArgs connectArgs = new SocketAsyncEventArgs();
+                connectArgs.UserToken = _socket;
+                connectArgs.RemoteEndPoint = _serverEndPoint;
+                connectArgs.Completed += new EventHandler<SocketAsyncEventArgs>(ConnectAsyncCallback);
+                _socket.ConnectAsync(connectArgs);
             }
         }
 
@@ -56,15 +58,84 @@ namespace Gigamud.Communications.Sockets
             if (Connected != null)
                 Connected(e.ConnectByNameError);
 
-            _readArgs = new SocketAsyncEventArgs();
-            _buffer = new byte[MAXBUFFER];
-            _readArgs.SetBuffer(_buffer, 0, MAXBUFFER);
-            _readArgs.UserToken = _socket;
-            _readArgs.RemoteEndPoint = _serverEndPoint;
+            SocketAsyncEventArgs readArgs = new SocketAsyncEventArgs();
+            byte[] readbuffer = new byte[MAXBUFFER];
+            readArgs.SetBuffer(readbuffer, 0, MAXBUFFER);
+            readArgs.UserToken = _socket;
+            readArgs.RemoteEndPoint = _serverEndPoint;
 
-            _readArgs.Completed += new EventHandler<SocketAsyncEventArgs>(RecievedBytes);
+            readArgs.Completed += new EventHandler<SocketAsyncEventArgs>(ProcessServerOptions);
 
-            _socket.ReceiveAsync(_readArgs);
+            _socket.ReceiveAsync(readArgs);
+        }
+
+        void ProcessServerOptions(object sender, SocketAsyncEventArgs e)
+        {
+            if (e.ConnectByNameError != null)
+                ; // handle error
+            else if (e.SocketError == SocketError.Success)
+            {
+                if (e.BytesTransferred > 0)
+                {
+                    if ((e.Buffer[0] ^ 0xFF) > 0)
+                    {
+                        e.Completed -= new EventHandler<SocketAsyncEventArgs>(ProcessServerOptions);
+                        e.Completed += new EventHandler<SocketAsyncEventArgs>(RecievedBytes);
+                        RecievedBytes(sender, e);
+                        return;
+                    }
+
+                    int idx = 0;
+                    List<byte> response = new List<byte>();
+                    while (idx < e.BytesTransferred && e.Buffer[idx++] == 0xFF)
+                    {
+                        response.Add(0xFF);  // add command marker
+                        byte query = e.Buffer[idx++];
+                        byte option = e.Buffer[idx++];
+
+                        if (option == 0x3) // sga
+                        {
+                            if (query == 0xFD) // do
+                                response.Add(0xFB); // will
+                            else
+                                response.Add(0xFD); // do
+                        }
+                        else if (query == 0xFD) // do
+                            response.Add(0xFC); // wont
+                        else
+                            response.Add(0xFE); // dont
+                    }
+
+                    SocketAsyncEventArgs writeArgs = new SocketAsyncEventArgs();
+                    writeArgs.UserToken = _socket;
+                    writeArgs.RemoteEndPoint = _serverEndPoint;
+                    byte[] writebuffer = response.ToArray();
+                    writeArgs.SetBuffer(writebuffer, 0, writebuffer.Length);
+                    writeArgs.Completed += new EventHandler<SocketAsyncEventArgs>(ServerResponseHandler);
+
+                    _socket.SendAsync(writeArgs);
+                }
+            }
+        }
+
+        void ServerResponseHandler(object sender, SocketAsyncEventArgs e)
+        {
+            if (e.ConnectByNameError != null)
+                ; // handle error
+            else if (e.SocketError == SocketError.Success)
+            {
+                string s = string.Empty;
+
+                SocketAsyncEventArgs readArgs = new SocketAsyncEventArgs();
+                byte[] readbuffer = new byte[MAXBUFFER];
+                readArgs.SetBuffer(readbuffer, 0, MAXBUFFER);
+                readArgs.UserToken = _socket;
+                readArgs.RemoteEndPoint = _serverEndPoint;
+
+                readArgs.Completed += new EventHandler<SocketAsyncEventArgs>(RecievedBytes);
+
+                _socket.ReceiveAsync(readArgs);
+            }
         }
 
         void RecievedBytes(object sender, SocketAsyncEventArgs e)
@@ -76,13 +147,25 @@ namespace Gigamud.Communications.Sockets
                 // process the message
                 string msg = TelnetEncoding.ConvertFromBytes(e.Buffer, e.Offset, e.BytesTransferred);
 
-                // notify any listeners
-                if (MessageRecieved != null)
-                    MessageRecieved(msg);
-
                 if (msg.Length > 0)
-                    // keep listening
-                    _socket.ReceiveAsync(e);
+                {
+                    // notify any listeners
+                    if (MessageRecieved != null)
+                        MessageRecieved(msg);
+                }
+
+                SocketAsyncEventArgs readArgs = new SocketAsyncEventArgs();
+                byte[] readbuffer = new byte[MAXBUFFER];
+                readArgs.SetBuffer(readbuffer, 0, MAXBUFFER);
+                readArgs.UserToken = _socket;
+                readArgs.RemoteEndPoint = _serverEndPoint;
+
+                readArgs.Completed += new EventHandler<SocketAsyncEventArgs>(RecievedBytes);
+
+                _socket.ReceiveAsync(readArgs);
+                //}
+                //else
+                //    waiting = true;
             }
             else
             {
@@ -92,6 +175,29 @@ namespace Gigamud.Communications.Sockets
                     default: break;
                 }
             }
+        }
+
+        public void Write(string cmd)
+        {
+            SocketAsyncEventArgs writeArgs = new SocketAsyncEventArgs();
+            writeArgs.UserToken = _socket;
+            writeArgs.RemoteEndPoint = _serverEndPoint;
+            writeArgs.Completed += new EventHandler<SocketAsyncEventArgs>(WriteCompleted);
+
+            if (!cmd.EndsWith("\n"))
+                cmd += "\n";
+
+            byte[] b = new byte[cmd.Length];
+            for (int i = 0; i < cmd.Length; ++i)
+                b[i] = (byte)cmd[i];
+
+            writeArgs.SetBuffer(b, 0, cmd.Length);
+
+            _socket.SendAsync(writeArgs);
+        }
+
+        void WriteCompleted(object sender, SocketAsyncEventArgs e)
+        {
         }
 
         public void Disconnect()

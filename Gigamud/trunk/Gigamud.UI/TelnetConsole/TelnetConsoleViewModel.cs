@@ -13,6 +13,7 @@ using Gigamud.Infrastructure.Utilities;
 using Gigamud.Communications.Sockets;
 using System.Text;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace Gigamud.UI.TelnetConsole
 {
@@ -47,21 +48,36 @@ namespace Gigamud.UI.TelnetConsole
             }
         }
 
-        StringBuilder _feed;
-        public string DataFeed
+        string _command;
+        public string Command
         {
             get
             {
-                return _feed.ToString();
+                return _command;
             }
             set
             {
-                _feed = new StringBuilder(value);
-                FirePropertyChanged("DataFeed");
+                _command = value;
+                FirePropertyChanged("Command");
+            }
+        }
+
+        ObservableCollection<string> _content;
+        public ObservableCollection<string> Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                FirePropertyChanged("Content");
             }
         }
 
         public ICommand ConnectCommand { get; set; }
+        public ICommand SendCommand { get; set; }
 
         TelnetSocket _commSocket;
         Dispatcher _appDispatcher;
@@ -70,16 +86,38 @@ namespace Gigamud.UI.TelnetConsole
         {
             _serverName = "time-a.nist.gov";
             _port = 13;
-            _feed = new StringBuilder();
+            _content = new ObservableCollection<string>();
+            _command = string.Empty;
 
             ConnectCommand = new BasicCommand((o) =>
             {
                 _appDispatcher = Application.Current.RootVisual.Dispatcher;
                 _commSocket = new TelnetSocket(ServerName, _port);
                 _commSocket.Connected += new TelnetSocket.TelnetSocketConnectedHandler((e) => {/*handle error*/});
-                _commSocket.MessageRecieved += new TelnetSocket.TelnetSocketMessageRecievedHandler((m) => { _feed.AppendLine(m); FirePropertyChanged("DataFeed"); });
+                _commSocket.MessageRecieved += new TelnetSocket.TelnetSocketMessageRecievedHandler(AddContent);
                 _commSocket.Connect();
             });
+
+            SendCommand = new BasicCommand((o) =>
+                {
+                    if (_commSocket.IsConnected && _command != null)
+                    {
+                        _commSocket.Write(_command + "\n");
+                    }
+                });
+        }
+
+        void AddContent(string msg)
+        {
+            if (_appDispatcher == null || _appDispatcher.CheckAccess())
+            {
+                Content.Add(msg);
+                FirePropertyChanged("Content");
+            }
+            else
+            {
+                _appDispatcher.BeginInvoke(() => { AddContent(msg); });
+            }
         }
 
         void FirePropertyChanged(string propertyName)

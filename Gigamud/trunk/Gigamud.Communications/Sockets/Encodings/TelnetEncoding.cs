@@ -9,11 +9,23 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Text;
+using System.Collections.Generic;
 
 namespace Gigamud.Communications.Sockets.Encodings
 {
     public static class TelnetEncoding
     {
+        public static HashSet<byte> _invalidBytes;
+
+        static TelnetEncoding()
+        {
+            // build valid bytes
+            _invalidBytes = new HashSet<byte>();
+
+            foreach (char c in new char[] { '\b', '\r' })
+                _invalidBytes.Add((byte)c);
+        }
+
         public static string ConvertFromBytes(byte[] source, int index, int length)
         {
             StringBuilder sb = new StringBuilder();
@@ -28,9 +40,13 @@ namespace Gigamud.Communications.Sockets.Encodings
                 byte b = source[index + i];
 
                 if ((b ^ 0xFF) > 0) // normal processing
-                    sb.Append((char)b);
+                {
+                    if (!_invalidBytes.Contains(b))
+                        sb.Append((char)b);
+                }
                 else
                 {
+                    i += 2;
                     // process special commands
                 }
             }

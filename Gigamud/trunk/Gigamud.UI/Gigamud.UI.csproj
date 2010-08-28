@@ -57,6 +57,9 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\MainConsole.xaml.cs">
+      <DependentUpon>MainConsole.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TelnetConsole\TelnetConsoleView.xaml.cs">
       <DependentUpon>TelnetConsoleView.xaml</DependentUpon>
@@ -64,6 +67,10 @@
     <Compile Include="TelnetConsole\TelnetConsoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Console\MainConsole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TelnetConsole\TelnetConsoleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

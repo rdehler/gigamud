@@ -197,7 +197,7 @@ namespace Gigamud.Communications.Sockets.Telnet
                             args.SetBuffer(response, 0, response.Length);
                             _socket.SendAsync(args);
                         }
-                        else // keep listening
+                        else if (text.Length > 0) // keep listening
                         {
                             args.SetBuffer(new byte[1024], 0, 1024);
                             _socket.ReceiveAsync(args);

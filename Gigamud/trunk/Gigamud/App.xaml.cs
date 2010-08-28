@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Gigamud.UI.TelnetConsole;
+using Gigamud.UI.Console;
 
 namespace Gigamud
 {
@@ -26,7 +27,7 @@ namespace Gigamud
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new TelnetConsoleView();
+            this.RootVisual = new MainConsole();
         }
 
         private void Application_Exit(object sender, EventArgs e)

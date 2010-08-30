@@ -11,9 +11,9 @@
             <RowDefinition Height="271*" />
             <RowDefinition Height="29*" />
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="Viewer">
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="Viewer" Background="Black">
             <TextBlock Name="tblkConsole" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextTrimming="None"/>
         </ScrollViewer>
-        <TextBox HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Name="tbxMain" KeyDown="tbxMain_KeyDown"/>
+        <TextBox HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Name="tbxMain" KeyDown="tbxMain_KeyDown" Background="Black" Foreground="Green"/>
     </Grid>
 </UserControl>

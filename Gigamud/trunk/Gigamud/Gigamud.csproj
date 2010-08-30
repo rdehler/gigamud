@@ -66,6 +66,7 @@
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
@@ -73,6 +74,9 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HostSurface.xaml.cs">
+      <DependentUpon>HostSurface.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +97,12 @@
       <Project>{7D61D937-2D07-4DEC-BC1D-1596F487FD05}</Project>
       <Name>Gigamud.UI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="HostSurface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

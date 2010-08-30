@@ -245,7 +245,7 @@ namespace Gigamud.Communications.Sockets.Telnet
                         sb.Append(c);
                 }
             }
-
+            
             return sb.ToString();
         }
 
@@ -265,7 +265,8 @@ namespace Gigamud.Communications.Sockets.Telnet
             {
                 case TelnetCommands.Will: // the server is willing to enable this
                     if (option == TelnetOptions.SupressGoAhead ||
-                        option == TelnetOptions.Echo)
+                        option == TelnetOptions.Echo ||
+                        option == TelnetOptions.TransmitBinary)
                         response[1] = (byte)TelnetCommands.Do;
                     else
                         response[1] = (byte)TelnetCommands.Dont;
@@ -275,7 +276,8 @@ namespace Gigamud.Communications.Sockets.Telnet
                     break;
                 case TelnetCommands.Do: // the server requests you do this
                     if (option == TelnetOptions.SupressGoAhead ||
-                        option == TelnetOptions.Echo)
+                        option == TelnetOptions.Echo ||
+                        option == TelnetOptions.TransmitBinary)
                         response[1] = (byte)TelnetCommands.Will;
                     else
                         response[1] = (byte)TelnetCommands.Wont;

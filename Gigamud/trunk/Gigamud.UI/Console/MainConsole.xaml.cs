@@ -32,7 +32,10 @@ namespace Gigamud.UI.Console
             {
                 Run r = new Run();
                 r.Text = message;
-                tblkConsole.Inlines.Add(r);
+                r.Foreground = new SolidColorBrush(Colors.Gray);
+                if (tblkConsole.Inlines.Count == 0)
+                    tblkConsole.Inlines.Add(new Run());
+                tblkConsole.Inlines.Insert(tblkConsole.Inlines.Count - 1, r);
                 Viewer.UpdateLayout();
                 Viewer.ScrollToVerticalOffset(double.MaxValue);
             }

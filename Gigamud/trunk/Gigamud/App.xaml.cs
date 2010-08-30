@@ -27,7 +27,7 @@ namespace Gigamud
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new MainConsole();
+            this.RootVisual = new HostSurface();
         }
 
         private void Application_Exit(object sender, EventArgs e)

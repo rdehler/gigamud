@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Gigamud.Communications.Sockets.Telnet;
+using Gigamud.Infrastructure.Formatter;
 
 namespace Gigamud.UI.Console
 {
@@ -30,12 +31,9 @@ namespace Gigamud.UI.Console
         {
             if (this.Dispatcher.CheckAccess())
             {
-                Run r = new Run();
-                r.Text = message;
-                r.Foreground = new SolidColorBrush(Colors.Gray);
-                if (tblkConsole.Inlines.Count == 0)
-                    tblkConsole.Inlines.Add(new Run());
-                tblkConsole.Inlines.Insert(tblkConsole.Inlines.Count - 1, r);
+                string[] lines = message.Split('\n');
+                for (int i = 0; i < lines.Length; ++i)
+                    tblkConsole.Inlines.Add(TextFormatter.Format(i == lines.Length - 1 ? lines[i] : lines[i] + "\n"));
                 Viewer.UpdateLayout();
                 Viewer.ScrollToVerticalOffset(double.MaxValue);
             }

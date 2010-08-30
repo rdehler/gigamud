@@ -241,11 +241,13 @@ namespace Gigamud.Communications.Sockets.Telnet
                 else // process it normally
                 {
                     char c = (char)b;
-                    if (c != '\r' && c != '\b') // these mess with the text
+                    if (c == '\b' && sb.Length > 0)
+                        sb.Remove(sb.Length - 1, 1);
+                    else if (c != '\r') // these mess with the text
                         sb.Append(c);
                 }
             }
-            
+
             return sb.ToString();
         }
 

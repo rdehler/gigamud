@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gigamud.UI.Console.MainConsole"
+﻿<UserControl x:Class="MMX.UI.Console.MainConsole"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

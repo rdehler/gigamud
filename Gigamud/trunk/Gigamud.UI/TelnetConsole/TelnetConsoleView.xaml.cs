@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Gigamud.UI.TelnetConsole
+namespace MMX.UI.TelnetConsole
 {
     public partial class TelnetConsoleView : UserControl
     {

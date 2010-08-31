@@ -9,14 +9,14 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ComponentModel;
-using Gigamud.Infrastructure.Utilities;
-using Gigamud.Communications.Sockets;
+using MMX.Infrastructure.Utilities;
+using MMX.Communications.Sockets;
 using System.Text;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
-using Gigamud.Communications.Sockets.Telnet;
+using MMX.Communications.Sockets.Telnet;
 
-namespace Gigamud.UI.TelnetConsole
+namespace MMX.UI.TelnetConsole
 {
     // TODO: Need a better way to hook the dispatcher.  also need to add base viewmodel with this functionality and propertychanged, etc.
     public class TelnetConsoleViewModel : INotifyPropertyChanged

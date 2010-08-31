@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Gigamud.Infrastructure.Formatter
+namespace MMX.Infrastructure.Formatter
 {
     public static class TextFormatter
     {

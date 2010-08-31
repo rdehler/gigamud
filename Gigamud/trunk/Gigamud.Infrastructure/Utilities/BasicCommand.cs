@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Gigamud.Infrastructure.Utilities
+namespace MMX.Infrastructure.Utilities
 {
     public class BasicCommand : ICommand
     {

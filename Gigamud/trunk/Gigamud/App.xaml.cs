@@ -23,6 +23,21 @@ namespace Gigamud
             this.UnhandledException += this.Application_UnhandledException;
 
             InitializeComponent();
+
+            if (Application.Current.IsRunningOutOfBrowser)
+            {
+                App.Current.CheckAndDownloadUpdateCompleted +=
+                    new CheckAndDownloadUpdateCompletedEventHandler(CheckAndDownloadUpdateCompleted);
+                App.Current.CheckAndDownloadUpdateAsync();
+            }
+        }
+
+        void CheckAndDownloadUpdateCompleted(object sender, CheckAndDownloadUpdateCompletedEventArgs e)
+        {
+            if (e.Error == null && e.UpdateAvailable)
+            {
+                MessageBox.Show("Application updated, please restart to apply changes.");
+            }
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)

@@ -1,0 +1,21 @@
+#summary This page will provide an overview of the project
+
+= Introduction =
+
+This page will provide an overview of the project and status.  I will try to keep this updated, but the coding has a higher priority than the wiki.
+
+== Notes ==
+
+For anyone wondering, this is an open source project, however I'm not going to open it up for development by the group at large until I have enough of the infrastructure in place to feel comfortable.  This is mostly due to my goals with doing this project which are to:
+  # Create a new client to replace MegaMud because it is outdated
+  # Create something I can use to show off some of my development skills
+
+Because of 2, I have certain design considerations that I WILL have met before I allow this go to go out into the wild.  I'm more than happy to take suggestions and feedback on the design I choose, but in the end, this has to reflect MY design or bullet 2 will never be met.
+
+== Status ==
+
+Currently working on some of the text formatting and colorization.  Once this is done, I need to try to start designing a basic action engine.  I'm expecting this to take a few weeks due to my schedule right now.
+
+== Finished ==
+
+Created a spike solution that can access a board.

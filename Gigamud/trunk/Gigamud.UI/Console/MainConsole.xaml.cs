@@ -9,10 +9,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Gigamud.Communications.Sockets.Telnet;
-using Gigamud.Infrastructure.Formatter;
+using MMX.Communications.Sockets.Telnet;
+using MMX.Infrastructure.Formatter;
 
-namespace Gigamud.UI.Console
+namespace MMX.UI.Console
 {
     public partial class MainConsole : UserControl
     {

@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Gigamud.Communications.Sockets.Telnet
+namespace MMX.Communications.Sockets.Telnet
 {
     public enum TelnetOptions : byte
     {

@@ -93,9 +93,9 @@
     <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gigamud.UI\Gigamud.UI.csproj">
+    <ProjectReference Include="..\Gigamud.UI\MMX.UI.csproj">
       <Project>{7D61D937-2D07-4DEC-BC1D-1596F487FD05}</Project>
-      <Name>Gigamud.UI</Name>
+      <Name>MMX.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

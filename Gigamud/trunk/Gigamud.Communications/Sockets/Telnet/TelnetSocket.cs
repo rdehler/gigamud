@@ -14,7 +14,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gigamud.Communications.Sockets.Telnet
+namespace MMX.Communications.Sockets.Telnet
 {
     /* Process for connecting
      * -------------------------

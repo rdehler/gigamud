@@ -9,10 +9,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Gigamud.UI.TelnetConsole;
-using Gigamud.UI.Console;
+using MMX.UI.TelnetConsole;
+using MMX.UI.Console;
 
-namespace Gigamud
+namespace MMX
 {
     public partial class App : Application
     {

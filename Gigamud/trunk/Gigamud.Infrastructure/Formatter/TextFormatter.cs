@@ -8,27 +8,48 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Gigamud.Infrastructure.Formatter
 {
     public static class TextFormatter
     {
-        public static Run Format(string s)
+        static Regex _combatRx, _dmgRx;
+        static Regex _failRx;
+        static Regex _missRx;
+        static Regex _opMissRx;
+
+        static RegexOptions SearchOptions = RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.IgnoreCase;
+
+        static TextFormatter()
         {
-            Run r = new Run();
-            r.Text = s;
-            r.Foreground = new SolidColorBrush(Colorize(s));
-            return r;
+            _combatRx = new Regex("^You.*damage[.|!]$", SearchOptions);
+            _dmgRx = new Regex(".+you.*for.*damage[.|!]$", SearchOptions);
+        }
+
+        public static Run[] Format(string s)
+        {
+            List<Run> runs = new List<Run>();
+            string[] data = s.Split(':');
+            for (int i = 0; i < data.Length; ++i)
+            {
+                string str = data[i];
+                if (i < data.Length - 1) str += ":";
+                Run r = new Run();
+                r.Text = str;
+                r.Foreground = new SolidColorBrush(Colorize(str));
+                runs.Add(r);
+            }
+            return runs.ToArray();
         }
 
         static Color Colorize(string s)
         {
-            if (s.Contains("say"))
-                return Colors.Green;
-            if (s.Contains("damage"))
+            if (_combatRx.IsMatch(s))
                 return Colors.Red;
-            if (s.Contains("experience"))
-                return Colors.Yellow;
+            if (_dmgRx.IsMatch(s))
+                return Colors.Orange;
             return Colors.Gray;
         }
     }

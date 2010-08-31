@@ -18,11 +18,13 @@ namespace Gigamud.UI.Console
     {
         TelnetSocket _socket;
         Run _currentRun;
+        string _buffer;
 
         public MainConsole()
         {
             InitializeComponent();
-            _socket = new TelnetSocket("69.205.222.240", 23);
+            _buffer = string.Empty;
+            _socket = new TelnetSocket("MajorMud.DontExist.com", 23);
             _socket.MessageRecieved += new TelnetSocket.IncomingMessageHandler(_socket_MessageRecieved);
             _socket.Connect();
         }
@@ -31,9 +33,22 @@ namespace Gigamud.UI.Console
         {
             if (this.Dispatcher.CheckAccess())
             {
-                string[] lines = message.Split('\n');
-                for (int i = 0; i < lines.Length; ++i)
-                    tblkConsole.Inlines.Add(TextFormatter.Format(i == lines.Length - 1 ? lines[i] : lines[i] + "\n"));
+                _buffer += message;
+
+                string[] lines = _buffer.Split('\n');
+                int len = lines.Length;
+                if (!message.EndsWith("\n") && !message.EndsWith(":"))
+                {
+                    len--;
+                    _buffer = lines[lines.Length - 1];
+                }
+                else
+                    _buffer = string.Empty;
+
+                for (int i = 0; i < len; ++i)
+                    foreach (Run r in TextFormatter.Format(i == lines.Length - 1 ? lines[i] : lines[i] + "\n"))
+                        tblkConsole.Inlines.Add(r);
+
                 Viewer.UpdateLayout();
                 Viewer.ScrollToVerticalOffset(double.MaxValue);
             }
